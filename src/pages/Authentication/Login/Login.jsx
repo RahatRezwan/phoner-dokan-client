@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
 const Login = () => {
+   const { loginAUser, loading, setLoading, user } = useContext(AuthContext);
    const {
       register,
       handleSubmit,
@@ -11,10 +15,40 @@ const Login = () => {
 
    const [loginError, setLoginError] = useState("");
 
-   const handleLogin = (data) => {
+   const handleLogin = (data, event) => {
       setLoginError("");
-      console.log(data);
+      const form = event.target;
+      loginAUser(data.email, data.password)
+         .then((result) => {
+            console.log(result.user);
+            toast.success("Login successfull");
+            form.reset();
+         })
+         .catch((err) => {
+            const error = err.code.slice(5);
+
+            if (error === "user-not-found") {
+               const errMsg = "User Not Found";
+               toast.error(errMsg);
+               setLoginError(errMsg);
+            }
+            if (error === "wrong-password") {
+               const errMsg = "Your password is incorrect";
+               toast.error(errMsg);
+               setLoginError(errMsg);
+            }
+            setLoading(false);
+         });
    };
+
+   if (loading) {
+      return <HomeSpinner />;
+   }
+   /* prevent sign in while a user logged in */
+   if (user) {
+      return <Navigate to="/" />;
+   }
+
    return (
       <div className="w-[85%] md:w-[50%] xl:w-[30%] mx-auto border border-primary rounded-md p-7 my-16">
          <h1 className="text-4xl mb-4 text-center font-bold">Login</h1>
@@ -45,7 +79,7 @@ const Login = () => {
                <p className="text-red-500">{errors.password?.message}</p>
             </div>
             <div className="form-control mt-6"></div>
-            {loginError && <p className="text-red-500 font-semibold">{loginError}</p>}
+            {loginError && <p className="text-red-500 font-bold text-center mb-2">{loginError}</p>}
             <input type="submit" className="btn btn-primary w-full" value="Login" />
          </form>
          <p className="text-center my-3">

@@ -1,15 +1,16 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { toast } from "react-toastify";
+import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 
 const Register = () => {
-   const { createAUser, updateAUser } = useContext(AuthContext);
+   const { createAUser, updateAUser, user, loading, setHomeSpinner } = useContext(AuthContext);
    const [passwordError, setPasswordError] = useState("");
-   const [loading, setLoading] = useState(false);
+   const [loader, setLoader] = useState(false);
    const {
       register,
       handleSubmit,
@@ -20,7 +21,7 @@ const Register = () => {
 
    const handleRegister = (data, event) => {
       setPasswordError("");
-      setLoading(true);
+      setLoader(true);
       const form = event.target;
       const fullName = data.firstName + " " + data.lastName;
       /* send the uploaded image to the server */
@@ -29,6 +30,7 @@ const Register = () => {
       formData.append("image", profileImg);
       if (data.password !== data.confirmPass) {
          setPasswordError("Password doesn't match!");
+         setLoader(false);
          return;
       }
 
@@ -49,24 +51,44 @@ const Register = () => {
                   /* update a user info */
                   updateAUser(user.name, user.profilePic)
                      .then(() => {
+                        setHomeSpinner(true);
                         /* save user to db */
                         axios.post("http://localhost:5000/users", user).then((response) => {
                            if (response.data.acknowledged) {
-                              setLoading(false);
+                              setLoader(false);
                               toast.success("Account Created Successfully");
                               form.reset();
+                              setHomeSpinner(false);
                            }
                         });
                      })
-                     .catch((error) => console.log(error));
+                     .catch((error) => {
+                        setLoader(false);
+                        setHomeSpinner(false);
+                        toast.error(error.code.slice(5));
+                     });
                })
-               .catch((error) => console.log(error));
+               .catch((error) => {
+                  setLoader(false);
+                  setHomeSpinner(false);
+                  toast.error(error.code.slice(5));
+               });
          })
          .catch((error) => {
-            setLoading(false);
-            console.log(error);
+            setLoader(false);
+            setHomeSpinner(false);
+            toast.error(error);
          });
    };
+
+   if (loading) {
+      return <HomeSpinner />;
+   }
+
+   /* prevent register while a user logged in */
+   if (user) {
+      return <Navigate to="/" />;
+   }
 
    return (
       <div className="w-[85%] md:w-[50%] xl:w-[33%] mx-auto border border-primary rounded-md p-7 my-16">
@@ -181,7 +203,7 @@ const Register = () => {
 
             <div className="form-control mt-6"></div>
             <button className="btn btn-primary w-full">
-               {loading ? <SmallSpinner /> : "Register"}
+               {loader ? <SmallSpinner /> : "Register"}
             </button>
          </form>
          <p className="text-center my-3">

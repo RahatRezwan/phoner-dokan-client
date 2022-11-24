@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import logo from "../../logo.png";
 import MobileMenu from "./MobileMenu";
+import { FiLogOut } from "react-icons/fi";
 
 const menuItems = [
    { id: "01", name: "Home", route: "/" },
@@ -11,6 +13,14 @@ const menuItems = [
 ];
 const Navbar = () => {
    const { user, logoutAUser } = useContext(AuthContext);
+
+   const handleLogout = () => {
+      logoutAUser()
+         .then(() => {
+            toast.success("Successfully Logout");
+         })
+         .catch((err) => console.log(err));
+   };
 
    return (
       <div className="bg-base-100 shadow-md">
@@ -50,10 +60,13 @@ const Navbar = () => {
                                  <Link>Settings</Link>
                               </li>
                               <li>
-                                 <Link onClick={logoutAUser}>Logout</Link>
+                                 <Link onClick={handleLogout}>Logout</Link>
                               </li>
                            </ul>
                         </div>
+                        <button onClick={handleLogout} className="ml-3">
+                           <FiLogOut className="text-2xl" />
+                        </button>
                      </>
                   ) : (
                      <>

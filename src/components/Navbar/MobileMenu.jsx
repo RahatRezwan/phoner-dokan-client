@@ -1,8 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const MobileMenu = ({ menuItems }) => {
    const [showMenu, setShowMenu] = useState(false);
+   const { logoutAUser } = useContext(AuthContext);
+
+   const handleLogout = () => {
+      logoutAUser()
+         .then(() => {
+            toast.success("Successfully Logout");
+         })
+         .catch((err) => console.log(err));
+   };
    return (
       <div className="relative lg:hidden">
          <div onClick={() => setShowMenu((prev) => !prev)}>
@@ -45,7 +57,9 @@ const MobileMenu = ({ menuItems }) => {
                      <Link>Dashboard</Link>
                   </li>
                   <li>
-                     <Link>Logout</Link>
+                     <Link onClick={handleLogout}>
+                        Logout <FiLogOut />
+                     </Link>
                   </li>
                </ul>
             </>

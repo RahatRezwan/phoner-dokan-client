@@ -15,6 +15,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [loading, setLoading] = useState(true);
+   const [homeSpinner, setHomeSpinner] = useState(false);
 
    /* Create a new user */
    const createAUser = (email, password) => {
@@ -52,7 +53,17 @@ const AuthProvider = ({ children }) => {
       return () => unsubscribe();
    }, []);
 
-   const authInfo = { user, loading, createAUser, loginAUser, updateAUser, logoutAUser };
+   const authInfo = {
+      user,
+      loading,
+      setLoading,
+      createAUser,
+      loginAUser,
+      updateAUser,
+      logoutAUser,
+      homeSpinner,
+      setHomeSpinner,
+   };
    return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
 };
 
