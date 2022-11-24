@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { toast } from "react-toastify";
-import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 
 const Register = () => {
-   const { createAUser, updateAUser, user, loading, setHomeSpinner } = useContext(AuthContext);
+   const { createAUser, updateAUser, user, setHomeSpinner } = useContext(AuthContext);
    const [passwordError, setPasswordError] = useState("");
    const [loader, setLoader] = useState(false);
    const {
@@ -17,6 +16,7 @@ const Register = () => {
       formState: { errors },
    } = useForm();
 
+   const navigate = useNavigate();
    const imgHostKey = process.env.REACT_APP_imgbb_key;
 
    const handleRegister = (data, event) => {
@@ -49,16 +49,17 @@ const Register = () => {
             createAUser(data.email, data.password)
                .then((result) => {
                   /* update a user info */
+                  setHomeSpinner(true);
                   updateAUser(user.name, user.profilePic)
                      .then(() => {
-                        setHomeSpinner(true);
                         /* save user to db */
                         axios.post("http://localhost:5000/users", user).then((response) => {
                            if (response.data.acknowledged) {
                               setLoader(false);
+                              setHomeSpinner(false);
                               toast.success("Account Created Successfully");
                               form.reset();
-                              setHomeSpinner(false);
+                              navigate("/");
                            }
                         });
                      })
@@ -80,10 +81,6 @@ const Register = () => {
             toast.error(error);
          });
    };
-
-   if (loading) {
-      return <HomeSpinner />;
-   }
 
    /* prevent register while a user logged in */
    if (user) {

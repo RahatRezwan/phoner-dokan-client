@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
@@ -15,6 +15,10 @@ const Login = () => {
 
    const [loginError, setLoginError] = useState("");
 
+   const navigate = useNavigate();
+   const location = useLocation();
+   const from = location.state?.from?.pathname || "/";
+
    const handleLogin = (data, event) => {
       setLoginError("");
       const form = event.target;
@@ -23,6 +27,7 @@ const Login = () => {
             console.log(result.user);
             toast.success("Login successfull");
             form.reset();
+            navigate(from, { replace: true });
          })
          .catch((err) => {
             const error = err.code.slice(5);
