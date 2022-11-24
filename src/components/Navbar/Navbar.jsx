@@ -28,7 +28,9 @@ const Navbar = () => {
                   ))}
 
                   <li>
-                     <Link className="btn btn-primary btn-outline">Login</Link>
+                     <Link to="/login" className="btn btn-primary btn-outline">
+                        Login
+                     </Link>
                   </li>
 
                   {/* user */}
