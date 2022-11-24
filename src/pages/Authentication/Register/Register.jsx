@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
+import { toast } from "react-toastify";
 
 const Register = () => {
-   const { createAUser } = useContext(AuthContext);
+   const { createAUser, updateAUser } = useContext(AuthContext);
    const [passwordError, setPasswordError] = useState("");
    const [loading, setLoading] = useState(false);
    const {
@@ -17,9 +18,11 @@ const Register = () => {
 
    const imgHostKey = process.env.REACT_APP_imgbb_key;
 
-   const handleRegister = (data) => {
+   const handleRegister = (data, event) => {
       setPasswordError("");
       setLoading(true);
+      const form = event.target;
+      const fullName = data.firstName + " " + data.lastName;
       /* send the uploaded image to the server */
       const profileImg = data.profilePic[0];
       const formData = new FormData();
@@ -33,20 +36,31 @@ const Register = () => {
       axios
          .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
          .then((imgResponse) => {
-            /* const user = {
+            const user = {
                profilePic: imgResponse.data.data.url,
-               name: data.firstName + " " + data.lastName,
+               name: fullName,
                email: data.email,
                role: data.role,
-            }; */
+            };
 
+            /* Crete a user */
             createAUser(data.email, data.password)
                .then((result) => {
-                  setLoading(false);
-                  console.log(result.user);
+                  /* update a user info */
+                  updateAUser(user.name, user.profilePic)
+                     .then(() => {
+                        /* save user to db */
+                        axios.post("http://localhost:5000/users", user).then((response) => {
+                           if (response.data.acknowledged) {
+                              setLoading(false);
+                              toast.success("Account Created Successfully");
+                              form.reset();
+                           }
+                        });
+                     })
+                     .catch((error) => console.log(error));
                })
                .catch((error) => console.log(error));
-            /* console.log(user); */
          })
          .catch((error) => {
             setLoading(false);

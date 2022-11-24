@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import logo from "../../logo.png";
 import MobileMenu from "./MobileMenu";
 
@@ -9,6 +10,8 @@ const menuItems = [
    { id: "03", name: "Blogs", route: "/blogs" },
 ];
 const Navbar = () => {
+   const { user, logoutAUser } = useContext(AuthContext);
+
    return (
       <div className="bg-base-100 shadow-md">
          <div className="navbar bg-transparent max-w-[1350px] mx-auto">
@@ -27,34 +30,40 @@ const Navbar = () => {
                      </li>
                   ))}
 
-                  <li>
-                     <Link to="/login" className="btn btn-primary btn-outline">
-                        Login
-                     </Link>
-                  </li>
-
-                  {/* user */}
-                  <div className="dropdown dropdown-end">
-                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                           <img src="https://placeimg.com/80/80/people" alt="" />
+                  {user?.displayName ? (
+                     <>
+                        {/* user */}
+                        <div className="dropdown dropdown-end">
+                           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                              <div className="w-10 rounded-full">
+                                 <img src={user?.photoURL} alt="" />
+                              </div>
+                           </label>
+                           <ul
+                              tabIndex={0}
+                              className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+                           >
+                              <li>
+                                 <Link className="justify-between">Dashboard</Link>
+                              </li>
+                              <li>
+                                 <Link>Settings</Link>
+                              </li>
+                              <li>
+                                 <Link onClick={logoutAUser}>Logout</Link>
+                              </li>
+                           </ul>
                         </div>
-                     </label>
-                     <ul
-                        tabIndex={0}
-                        className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
-                     >
+                     </>
+                  ) : (
+                     <>
                         <li>
-                           <Link className="justify-between">Dashboard</Link>
+                           <Link to="/login" className="btn btn-primary btn-outline">
+                              Login
+                           </Link>
                         </li>
-                        <li>
-                           <Link>Settings</Link>
-                        </li>
-                        <li>
-                           <Link>Logout</Link>
-                        </li>
-                     </ul>
-                  </div>
+                     </>
+                  )}
                </ul>
             </div>
 
