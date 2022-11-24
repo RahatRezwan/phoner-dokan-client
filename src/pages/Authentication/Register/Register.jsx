@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useState } from "react";
+import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 
 const Register = () => {
+   const { createAUser } = useContext(AuthContext);
    const [passwordError, setPasswordError] = useState("");
+   const [loading, setLoading] = useState(false);
    const {
       register,
       handleSubmit,
@@ -15,6 +19,7 @@ const Register = () => {
 
    const handleRegister = (data) => {
       setPasswordError("");
+      setLoading(true);
       /* send the uploaded image to the server */
       const profileImg = data.profilePic[0];
       const formData = new FormData();
@@ -24,18 +29,31 @@ const Register = () => {
          return;
       }
 
+      /* Host Image to imgBB */
       axios
          .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
-         .then((response) => console.log(response.data.data.url));
+         .then((imgResponse) => {
+            /* const user = {
+               profilePic: imgResponse.data.data.url,
+               name: data.firstName + " " + data.lastName,
+               email: data.email,
+               role: data.role,
+            }; */
 
-      /* axios({
-         method: "POST",
-         url: `https://api.imgbb.com/1/upload?key=${imgHostKey}`,
-         data: formData,
-      }).then((response) => console.log(response)); */
-
-      console.log(data);
+            createAUser(data.email, data.password)
+               .then((result) => {
+                  setLoading(false);
+                  console.log(result.user);
+               })
+               .catch((error) => console.log(error));
+            /* console.log(user); */
+         })
+         .catch((error) => {
+            setLoading(false);
+            console.log(error);
+         });
    };
+
    return (
       <div className="w-[85%] md:w-[50%] xl:w-[33%] mx-auto border border-primary rounded-md p-7 my-16">
          <h1 className="text-4xl mb-4 text-center font-bold">Register</h1>
@@ -44,7 +62,12 @@ const Register = () => {
                <label className="label">
                   <span className="label-text">Profile Picture</span>
                </label>
-               <input type="file" className="" {...register("profilePic")} />
+               <input
+                  type="file"
+                  className={`${errors.profilePic && "input-error"}`}
+                  {...register("profilePic", { required: "Profile Image is required" })}
+               />
+               <p className="text-red-500">{errors.profilePic?.message}</p>
             </div>
             <div className="grid grid-cols-2 gap-3">
                <div className="form-control">
@@ -143,7 +166,9 @@ const Register = () => {
             </div>
 
             <div className="form-control mt-6"></div>
-            <input type="submit" className="btn btn-primary w-full" value="Sign Up" />
+            <button className="btn btn-primary w-full">
+               {loading ? <SmallSpinner /> : "Register"}
+            </button>
          </form>
          <p className="text-center my-3">
             Already have an account?{" "}
