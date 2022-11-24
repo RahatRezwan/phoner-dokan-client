@@ -1,25 +1,39 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
+   const [passwordError, setPasswordError] = useState("");
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm();
 
-   const [passwordError, setPasswordError] = useState("");
+   const imgHostKey = process.env.REACT_APP_imgbb_key;
 
    const handleRegister = (data) => {
       setPasswordError("");
       /* send the uploaded image to the server */
       const profileImg = data.profilePic[0];
       const formData = new FormData();
-      formData.append("profileImg", profileImg);
+      formData.append("image", profileImg);
       if (data.password !== data.confirmPass) {
          setPasswordError("Password doesn't match!");
+         return;
       }
+
+      axios
+         .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
+         .then((response) => console.log(response.data.data.url));
+
+      /* axios({
+         method: "POST",
+         url: `https://api.imgbb.com/1/upload?key=${imgHostKey}`,
+         data: formData,
+      }).then((response) => console.log(response)); */
+
       console.log(data);
    };
    return (
