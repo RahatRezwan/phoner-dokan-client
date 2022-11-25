@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { Link, Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaUserAlt, FaHome } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
-import { RiFileList3Fill, RiMenuUnfoldLine } from "react-icons/ri";
+import { RiMenuUnfoldLine } from "react-icons/ri";
 
 const adminMenus = [
    { id: "01", name: "Manage Users", route: "/dashboard/manage-users" },
@@ -21,6 +21,7 @@ const sellerMenus = [
 
 const DashboardLayout = () => {
    const { logoutAUser } = useContext(AuthContext);
+   const [show, setShow] = useState(true);
 
    const handleLogout = () => {
       logoutAUser()
@@ -30,15 +31,16 @@ const DashboardLayout = () => {
          .catch((err) => console.log(err));
    };
    return (
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row min-h-screen max-w-[1440px]">
          <div className="min-h-full p-5 shadow-md flex flex-row md:flex-col items-center justify-center md:justify-start gap-10 md:mt-7">
-            <label
+            <button
                htmlFor="dashboard-drawer"
+               onClick={() => setShow(!show)}
                className="drawer-button cursor-pointer tooltip tooltip-bottom md:tooltip-right"
                data-tip="Open/Close SideBar"
             >
                <RiMenuUnfoldLine className="text-3xl" />
-            </label>
+            </button>
             <Link
                to="/"
                className="text-3xl tooltip tooltip-bottom md:tooltip-right"
@@ -54,13 +56,6 @@ const DashboardLayout = () => {
                <FaUserAlt />
             </Link>
             <Link
-               to="/dashboard/my-orders"
-               className="text-3xl tooltip tooltip-bottom md:tooltip-right"
-               data-tip="My Orders"
-            >
-               <RiFileList3Fill />
-            </Link>
-            <Link
                onClick={handleLogout}
                className="text-3xl tooltip tooltip-bottom md:tooltip-right"
                data-tip="Logout"
@@ -68,14 +63,13 @@ const DashboardLayout = () => {
                <FiLogOut />
             </Link>
          </div>
-         <div className="drawer">
-            <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content py-10 px-5">
-               <Outlet />
-            </div>
-            <div className="drawer-side shadow-lg relative pt-5">
+         <div className="flex gap-5 w-full">
+            <div className={show ? "block  min-h-screen w-[40%] lg:w-[20%]" : "hidden"}>
                <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
-               <ul className="menu p-4 w-80 bg-base-100 text-base-content">
+               <ul className="menu p-4 bg-base-100 text-base-content pt-10 w-full h-full">
+                  <li>
+                     <Link to="/">Go to Home</Link>
+                  </li>
                   <li>
                      <Link to="/dashboard">Dashboard</Link>
                   </li>
@@ -85,12 +79,29 @@ const DashboardLayout = () => {
                   <li>
                      <Link to="/dashboard/my-wishlist">My Wishlist</Link>
                   </li>
+
+                  {/* Admin Route */}
+                  {adminMenus.map((menu) => (
+                     <li key={menu.id}>
+                        <Link to={menu.route}>{menu.name}</Link>
+                     </li>
+                  ))}
+
+                  {/* Seller Routes */}
+                  {sellerMenus.map((menu) => (
+                     <li key={menu.id}>
+                        <Link to={menu.route}>{menu.name}</Link>
+                     </li>
+                  ))}
                   <li>
                      <Link onClick={handleLogout}>
                         Logout <FiLogOut />
                      </Link>
                   </li>
                </ul>
+            </div>
+            <div className="drawer-content py-10 px-5 w-full">
+               <Outlet />
             </div>
          </div>
       </div>
