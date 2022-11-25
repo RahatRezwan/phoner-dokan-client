@@ -11,11 +11,11 @@ const ManageSellers = () => {
       isLoading,
    } = useQuery({
       queryKey: ["sellers"],
-      queryFn: () => fetch(`http://localhost:5000/users/sellers`).then((res) => res.json()),
+      queryFn: () => fetch(`http://localhost:5000/sellers`).then((res) => res.json()),
    });
 
    const handleVerify = (seller) => {
-      fetch(`http://localhost:5000/users/sellers/${seller._id}`, {
+      fetch(`http://localhost:5000/sellers/${seller._id}`, {
          method: "PUT",
          /* headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
