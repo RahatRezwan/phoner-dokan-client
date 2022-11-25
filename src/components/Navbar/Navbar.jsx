@@ -24,8 +24,8 @@ const Navbar = () => {
 
    return (
       <div className="bg-base-100 shadow-md">
-         <div className="navbar bg-transparent max-w-[1350px] mx-auto">
-            <div className="flex-1">
+         <div className="navbar bg-transparent max-w-[1350px] mx-auto flex justify-between items-center">
+            <div className="">
                <Link className="w-[150px] md:w-[200px] lg:w-[250px]">
                   <img src={logo} alt="" />
                </Link>
@@ -54,7 +54,9 @@ const Navbar = () => {
                               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
                            >
                               <li>
-                                 <Link className="justify-between">Dashboard</Link>
+                                 <Link to="/dashboard" className="justify-between">
+                                    Dashboard
+                                 </Link>
                               </li>
                               <li>
                                  <Link>Settings</Link>
