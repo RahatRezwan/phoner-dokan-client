@@ -20,6 +20,7 @@ const ManageUsers = () => {
                <thead>
                   <tr>
                      <th></th>
+                     <th>Photo</th>
                      <th>Name</th>
                      <th>Email</th>
                      <th>Role</th>
@@ -30,10 +31,17 @@ const ManageUsers = () => {
                      <tr key={user._id} className="hover">
                         <th>{i + 1}</th>
                         <td>
+                           <div className="avatar">
+                              <div className="w-12 rounded-full">
+                                 <img src={user.profilePic} alt="" />
+                              </div>
+                           </div>
+                        </td>
+                        <td>
                            {user.name}{" "}
-                           {user?.verified && (
+                           {(user?.verified || user?.role === "Admin") && (
                               <div className="badge badge-success badge-sm text-white font-bold">
-                                 Verified Seller
+                                 {user?.verified ? "Verified Seller" : "Admin"}
                               </div>
                            )}
                         </td>

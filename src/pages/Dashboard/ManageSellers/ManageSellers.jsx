@@ -43,6 +43,7 @@ const ManageSellers = () => {
                <thead>
                   <tr>
                      <th></th>
+                     <th>Photo</th>
                      <th>Name</th>
                      <th>Email</th>
                      <th>Verify</th>
@@ -53,6 +54,13 @@ const ManageSellers = () => {
                   {sellers.map((seller, i) => (
                      <tr key={seller._id} className="hover">
                         <th>{i + 1}</th>
+                        <td>
+                           <div className="avatar">
+                              <div className="w-12 rounded-full">
+                                 <img src={seller.profilePic} alt="" />
+                              </div>
+                           </div>
+                        </td>
                         <td>
                            {seller.name}{" "}
                            {seller?.verified && (

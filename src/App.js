@@ -22,7 +22,7 @@ function App() {
          <RouterProvider router={router} />
          <ToastContainer
             position="top-center"
-            autoClose={15000}
+            autoClose={3000}
             theme="dark"
             closeButton={CloseButton}
          />
