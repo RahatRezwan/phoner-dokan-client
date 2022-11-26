@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const AddProduct = () => {
    const { register, handleSubmit } = useForm();
    const [categories, setCategories] = useState([]);
+
+   const imgHostKey = process.env.REACT_APP_imgbb_key;
 
    useEffect(() => {
       axios("http://localhost:5000/categories").then((response) => setCategories(response.data));
@@ -12,6 +15,35 @@ const AddProduct = () => {
 
    const handleAddProduct = (data, event) => {
       const form = event.target;
+      console.log(data);
+      const image = data.productImage[0];
+      const formData = new FormData();
+      formData.append("image", image);
+
+      /* Host Image to imgBB */
+      axios
+         .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
+         .then((imgResponse) => {
+            const product = {
+               image: imgResponse.data.data.url,
+               name: data.name,
+               condition: data.condition,
+               price: data.price,
+               purchaseYear: data.purchaseYear,
+               location: data.location,
+               contact: data.mobile,
+               details: data.description,
+               category: data.category,
+               quantity: 1,
+               data: new Date(),
+            };
+            axios.post("http://localhost:5000/products", product).then((response) => {
+               if (response.data.acknowledged) {
+                  toast.success("Product Added Successfully");
+                  form.reset();
+               }
+            });
+         });
    };
    return (
       <div className="max-w-[80%] mx-auto">

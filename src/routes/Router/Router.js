@@ -5,8 +5,8 @@ import { Blogs, Categories, Dashboard, Home, Login, Register } from "../../pages
 import {
    AddCategories,
    AddProduct,
+   ManageBuyers,
    ManageSellers,
-   ManageUsers,
    MyBuyers,
    MyOrders,
    MyProducts,
@@ -63,8 +63,8 @@ export const router = createBrowserRouter([
             element: <MyWishlist />,
          },
          {
-            path: "/dashboard/manage-users",
-            element: <ManageUsers />,
+            path: "/dashboard/manage-buyers",
+            element: <ManageBuyers />,
          },
          {
             path: "/dashboard/manage-sellers",

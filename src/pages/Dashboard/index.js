@@ -1,7 +1,7 @@
 import Dashboard from "./Dashboard/Dashboard";
 import AddCategories from "./AddCategories/AddCategories";
 import ManageSellers from "./ManageSellers/ManageSellers";
-import ManageUsers from "./ManageUser/ManageUsers";
+import ManageBuyers from "./ManageBuyers/ManageBuyers";
 import MyOrders from "./MyOrders/MyOrders";
 import MyWishlist from "./MyWishlist/MyWishlist";
 import ReportedItems from "./ReportedItems/ReportedItems";
@@ -13,7 +13,7 @@ export {
    Dashboard,
    AddCategories,
    ManageSellers,
-   ManageUsers,
+   ManageBuyers,
    MyOrders,
    MyWishlist,
    ReportedItems,

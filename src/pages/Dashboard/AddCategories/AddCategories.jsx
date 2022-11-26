@@ -24,7 +24,7 @@ const AddCategories = () => {
             };
             axios.post("http://localhost:5000/categories", category).then((response) => {
                if (response.data.acknowledged) {
-                  toast.success("Account Created Successfully");
+                  toast.success("Category Created Successfully");
                   form.reset();
                }
             });

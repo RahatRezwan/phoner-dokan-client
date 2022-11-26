@@ -1,33 +1,38 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import useToken from "../../../hooks/useToken";
 
 const Login = () => {
-   const { loginAUser, loading, setLoading, user } = useContext(AuthContext);
+   const { loginAUser, loading, setLoading } = useContext(AuthContext);
+   const [loginError, setLoginError] = useState("");
+   const [loginUserEmail, setLoginUserEmail] = useState("");
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm();
 
-   const [loginError, setLoginError] = useState("");
-
+   const [token] = useToken(loginUserEmail);
    const navigate = useNavigate();
    const location = useLocation();
    const from = location.state?.from?.pathname || "/";
+
+   if (token) {
+      toast.success("Login successfully");
+      navigate(from, { replace: true });
+   }
 
    const handleLogin = (data, event) => {
       setLoginError("");
       const form = event.target;
       loginAUser(data.email, data.password)
          .then((result) => {
-            console.log(result.user);
-            toast.success("Login successfull");
+            setLoginUserEmail(data.email);
             form.reset();
-            navigate(from, { replace: true });
          })
          .catch((err) => {
             const error = err.code.slice(5);
@@ -48,10 +53,6 @@ const Login = () => {
 
    if (loading) {
       return <HomeSpinner />;
-   }
-   /* prevent sign in while a user logged in */
-   if (user) {
-      return <Navigate to="/" />;
    }
 
    return (

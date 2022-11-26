@@ -7,8 +7,8 @@ import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 import { RiMenuUnfoldLine } from "react-icons/ri";
 
 const adminMenus = [
-   { id: "01", name: "Manage Users", route: "/dashboard/manage-users" },
-   { id: "02", name: "Manage Sellers", route: "/dashboard/manage-sellers" },
+   { id: "01", name: "All Buyers", route: "/dashboard/manage-buyers" },
+   { id: "02", name: "All Sellers", route: "/dashboard/manage-sellers" },
    { id: "03", name: "Add Categories", route: "/dashboard/add-categories" },
    { id: "04", name: "Reported Items", route: "/dashboard/reported-items" },
 ];

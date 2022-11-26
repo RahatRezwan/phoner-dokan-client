@@ -40,9 +40,11 @@ const AuthProvider = ({ children }) => {
 
    /* Log out a user */
    const logoutAUser = () => {
+      localStorage.removeItem("accessToken");
       setLoading(true);
       return signOut(auth);
    };
+
    /* get current user */
    useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
