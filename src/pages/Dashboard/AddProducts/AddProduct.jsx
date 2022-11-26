@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
 const AddProduct = () => {
@@ -9,6 +10,7 @@ const AddProduct = () => {
    const { register, handleSubmit } = useForm();
    const [categories, setCategories] = useState([]);
    const [currentSeller, setCurrentSeller] = useState(null);
+   const [loader, setLoader] = useState(false);
    const imgHostKey = process.env.REACT_APP_imgbb_key;
 
    /* get current user */
@@ -29,7 +31,7 @@ const AddProduct = () => {
 
    const handleAddProduct = (data, event) => {
       const form = event.target;
-      console.log(data);
+      setLoader(true);
       const image = data.productImage[0];
       const formData = new FormData();
       formData.append("image", image);
@@ -61,6 +63,7 @@ const AddProduct = () => {
                .then((response) => {
                   if (response.data.acknowledged) {
                      toast.success("Product Added Successfully");
+                     setLoader(false);
                      form.reset();
                   }
                });
@@ -178,7 +181,9 @@ const AddProduct = () => {
                ></textarea>
             </div>
 
-            <input type="submit" className="btn btn-primary w-full" value="Add Product" />
+            <button type="submit" className="btn btn-primary w-full">
+               {loader ? <SmallSpinner /> : "Add Product"}
+            </button>
          </form>
       </div>
    );
