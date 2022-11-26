@@ -13,7 +13,9 @@ import {
    MyWishlist,
    ReportedItems,
 } from "../../pages/Dashboard";
+import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import SellerRoute from "../SellerRoute/SellerRoute";
 
 export const router = createBrowserRouter([
    {
@@ -64,31 +66,59 @@ export const router = createBrowserRouter([
          },
          {
             path: "/dashboard/manage-buyers",
-            element: <ManageBuyers />,
+            element: (
+               <AdminRoute>
+                  <ManageBuyers />
+               </AdminRoute>
+            ),
          },
          {
             path: "/dashboard/manage-sellers",
-            element: <ManageSellers />,
+            element: (
+               <AdminRoute>
+                  <ManageSellers />
+               </AdminRoute>
+            ),
          },
          {
             path: "/dashboard/add-categories",
-            element: <AddCategories />,
+            element: (
+               <AdminRoute>
+                  <AddCategories />
+               </AdminRoute>
+            ),
          },
          {
             path: "/dashboard/reported-items",
-            element: <ReportedItems />,
+            element: (
+               <AdminRoute>
+                  <ReportedItems />
+               </AdminRoute>
+            ),
          },
          {
             path: "/dashboard/add-product",
-            element: <AddProduct />,
+            element: (
+               <SellerRoute>
+                  <AddProduct />
+               </SellerRoute>
+            ),
          },
          {
             path: "/dashboard/my-products",
-            element: <MyProducts />,
+            element: (
+               <SellerRoute>
+                  <MyProducts />
+               </SellerRoute>
+            ),
          },
          {
             path: "/dashboard/my-buyers",
-            element: <MyBuyers />,
+            element: (
+               <SellerRoute>
+                  <MyBuyers />
+               </SellerRoute>
+            ),
          },
       ],
    },

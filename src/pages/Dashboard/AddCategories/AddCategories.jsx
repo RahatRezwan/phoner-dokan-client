@@ -22,12 +22,16 @@ const AddCategories = () => {
                logo: imgResponse.data.data.url,
                name: data.category,
             };
-            axios.post("http://localhost:5000/categories", category).then((response) => {
-               if (response.data.acknowledged) {
-                  toast.success("Category Created Successfully");
-                  form.reset();
-               }
-            });
+            axios
+               .post("http://localhost:5000/categories", category, {
+                  headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+               })
+               .then((response) => {
+                  if (response.data.acknowledged) {
+                     toast.success("Category Created Successfully");
+                     form.reset();
+                  }
+               });
          });
    };
 

@@ -7,7 +7,12 @@ const ManageUsers = () => {
    /* Load data using react/tanStack query */
    const { data: buyers = [], isLoading } = useQuery({
       queryKey: ["buyers"],
-      queryFn: () => fetch(`http://localhost:5000/buyers`).then((res) => res.json()),
+      queryFn: () =>
+         fetch(`http://localhost:5000/buyers`, {
+            headers: {
+               authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+         }).then((res) => res.json()),
    });
 
    if (isLoading) {

@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { FaUserAlt, FaHome } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthProvider/AuthProvider";
 import { RiMenuUnfoldLine } from "react-icons/ri";
+import useAdmin from "../hooks/useAdmin";
+import useSeller from "../hooks/useSeller";
 
 const adminMenus = [
    { id: "01", name: "All Buyers", route: "/dashboard/manage-buyers" },
@@ -20,8 +22,10 @@ const sellerMenus = [
 ];
 
 const DashboardLayout = () => {
-   const { logoutAUser } = useContext(AuthContext);
+   const { logoutAUser, user } = useContext(AuthContext);
    const [show, setShow] = useState(true);
+   const [isAdmin] = useAdmin(user?.email);
+   const [isSeller] = useSeller(user?.email);
 
    const handleLogout = () => {
       logoutAUser()
@@ -80,19 +84,28 @@ const DashboardLayout = () => {
                      <Link to="/dashboard/my-wishlist">My Wishlist</Link>
                   </li>
 
-                  {/* Admin Route */}
-                  {adminMenus.map((menu) => (
-                     <li key={menu.id}>
-                        <Link to={menu.route}>{menu.name}</Link>
-                     </li>
-                  ))}
+                  {isAdmin ? (
+                     <>
+                        {/* Admin Route */}
+                        {adminMenus.map((menu) => (
+                           <li key={menu.id}>
+                              <Link to={menu.route}>{menu.name}</Link>
+                           </li>
+                        ))}
+                     </>
+                  ) : null}
 
-                  {/* Seller Routes */}
-                  {sellerMenus.map((menu) => (
-                     <li key={menu.id}>
-                        <Link to={menu.route}>{menu.name}</Link>
-                     </li>
-                  ))}
+                  {isSeller ? (
+                     <>
+                        {/* Seller Routes */}
+                        {sellerMenus.map((menu) => (
+                           <li key={menu.id}>
+                              <Link to={menu.route}>{menu.name}</Link>
+                           </li>
+                        ))}
+                     </>
+                  ) : null}
+
                   <li>
                      <Link onClick={handleLogout}>
                         Logout <FiLogOut />
