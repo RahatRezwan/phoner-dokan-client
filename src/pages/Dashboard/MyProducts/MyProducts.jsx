@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
@@ -22,10 +23,37 @@ const MyProducts = () => {
          }).then((res) => res.data),
    });
 
-   const handleAdvertise = () => {};
+   const handleAdvertise = (product) => {
+      const item = {
+         productId: product._id,
+         productName: product.name,
+         productImage: product.image,
+         quantity: product.quantity,
+      };
+      axios
+         .post("http://localhost:5000/advertisements", item, {
+            headers: {
+               authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+         })
+         .then((response) => {
+            if (response.data.acknowledged) {
+               toast.success("Advertised Successfully");
+               refetch();
+            }
+         });
+   };
 
    if (isLoading || loading) {
       return <HomeSpinner />;
+   }
+
+   if (products.length === 0) {
+      return (
+         <div className="text center">
+            <h2 className="text-3xl font-bold">No products found</h2>
+         </div>
+      );
    }
 
    return (

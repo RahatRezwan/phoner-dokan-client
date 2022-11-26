@@ -45,6 +45,7 @@ const AddProduct = () => {
                name: data.name,
                condition: data.condition,
                price: data.price,
+               originalPrice: data.originalPrice,
                purchaseYear: data.purchaseYear,
                location: data.location,
                contact: data.mobile,
@@ -52,9 +53,8 @@ const AddProduct = () => {
                category: data.category,
                quantity: 1,
                data: new Date(),
-               sellerId: currentSeller._id,
-               sellerName: currentSeller.name,
                sellerEmail: currentSeller.email,
+               sellerInfo: currentSeller,
             };
             axios
                .post("http://localhost:5000/products", product, {
@@ -81,7 +81,7 @@ const AddProduct = () => {
                <input type="file" {...register("productImage")} className="mb-2" />
             </div>
 
-            <div className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start w-full">
+            <div className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-start w-full">
                <div className="form-control">
                   <label className="label">
                      <span className="label-text text-md font-semibold">Product Model Name</span>
@@ -103,6 +103,18 @@ const AddProduct = () => {
                      placeholder="Product Price"
                      className={`input input-bordered mb-2`}
                      {...register("price")}
+                  />
+               </div>
+
+               <div className="form-control">
+                  <label className="label">
+                     <span className="label-text text-md font-semibold">Original Price</span>
+                  </label>
+                  <input
+                     type="text"
+                     placeholder="Original Price"
+                     className={`input input-bordered mb-2`}
+                     {...register("originalPrice")}
                   />
                </div>
 
@@ -138,7 +150,11 @@ const AddProduct = () => {
                   <label className="label">
                      <span className="label-text text-md font-semibold">Category/Brand Name</span>
                   </label>
-                  <select className="select select-bordered w-full mb-2" {...register("category")}>
+                  <select
+                     defaultValue="Apple"
+                     className="select select-bordered w-full mb-2"
+                     {...register("category")}
+                  >
                      {categories.map((category) => (
                         <option key={category._id}>{category.name}</option>
                      ))}
