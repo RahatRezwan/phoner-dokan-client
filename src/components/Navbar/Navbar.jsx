@@ -43,9 +43,13 @@ const Navbar = () => {
                   {user?.displayName ? (
                      <>
                         {/* user */}
-                        <div className="dropdown dropdown-end">
+                        <Link
+                           to="/dashboard"
+                           className="dropdown dropdown-end tooltip tooltip-bottom"
+                           data-tip="Go to Dashboard"
+                        >
                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                              <div className="w-10 rounded-full">
+                              <div className="w-10 rounded-full ">
                                  <img src={user?.photoURL} alt="" />
                               </div>
                            </label>
@@ -59,14 +63,15 @@ const Navbar = () => {
                                  </Link>
                               </li>
                               <li>
-                                 <Link>Settings</Link>
-                              </li>
-                              <li>
                                  <Link onClick={handleLogout}>Logout</Link>
                               </li>
                            </ul>
-                        </div>
-                        <button onClick={handleLogout} className="ml-3">
+                        </Link>
+                        <button
+                           onClick={handleLogout}
+                           className="ml-3 tooltip tooltip-bottom"
+                           data-tip="Logout"
+                        >
                            <FiLogOut className="text-2xl" />
                         </button>
                      </>

@@ -1,14 +1,28 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
 const AddProduct = () => {
+   const { user } = useContext(AuthContext);
    const { register, handleSubmit } = useForm();
    const [categories, setCategories] = useState([]);
-
+   const [currentSeller, setCurrentSeller] = useState(null);
    const imgHostKey = process.env.REACT_APP_imgbb_key;
 
+   /* get current user */
+   useEffect(() => {
+      if (user) {
+         axios(`http://localhost:5000/users/seller/${user?.email}`, {
+            headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+         }).then((response) => {
+            setCurrentSeller(response.data.seller);
+         });
+      }
+   }, [user, user?.email]);
+
+   /* get all categories */
    useEffect(() => {
       axios("http://localhost:5000/categories").then((response) => setCategories(response.data));
    }, []);
@@ -36,13 +50,20 @@ const AddProduct = () => {
                category: data.category,
                quantity: 1,
                data: new Date(),
+               sellerId: currentSeller._id,
+               sellerName: currentSeller.name,
+               sellerEmail: currentSeller.email,
             };
-            axios.post("http://localhost:5000/products", product).then((response) => {
-               if (response.data.acknowledged) {
-                  toast.success("Product Added Successfully");
-                  form.reset();
-               }
-            });
+            axios
+               .post("http://localhost:5000/products", product, {
+                  headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+               })
+               .then((response) => {
+                  if (response.data.acknowledged) {
+                     toast.success("Product Added Successfully");
+                     form.reset();
+                  }
+               });
          });
    };
    return (
