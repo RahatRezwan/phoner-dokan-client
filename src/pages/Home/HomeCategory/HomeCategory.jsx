@@ -21,7 +21,7 @@ const HomeCategory = () => {
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {categories.map((category) => (
                <Link
-                  to={`/categories/${category._id}`}
+                  to={`/category/${category._id}`}
                   key={category._id}
                   className="border rounded-lg shadow-md cursor-pointer"
                >

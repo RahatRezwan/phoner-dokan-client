@@ -16,13 +16,13 @@ const AddProduct = () => {
    /* get current user */
    useEffect(() => {
       if (user) {
-         axios(`http://localhost:5000/users/seller/${user?.email}`, {
+         axios(`http://localhost:5000/users/seller/${user.email}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          }).then((response) => {
             setCurrentSeller(response.data.seller);
          });
       }
-   }, [user, user?.email]);
+   }, [user]);
 
    /* get all categories */
    useEffect(() => {

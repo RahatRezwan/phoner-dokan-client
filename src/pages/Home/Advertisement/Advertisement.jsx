@@ -51,29 +51,27 @@ const Advertisement = () => {
             loop={true}
             modules={[Autoplay]}
          >
-            {advertisements.map((advertisement) => (
-               <div key={advertisement._id}>
-                  <SwiperSlide>
-                     <div className="flex items-center justify-between p-5 border rounded-md shadow-md bg-white">
-                        <div className="flex items-center">
-                           <div className="w-24 h-24">
-                              <img src={advertisement.image} alt="" />
-                           </div>
-                           <div>
-                              <h3 className="text-sm md:text-md font-bold">{advertisement.name}</h3>
-                              <p className="text-xs md:text-sm font-bold text-error">
-                                 Price: ${advertisement.price}
-                              </p>
-                           </div>
+            {advertisements.map((advertisement, index) => (
+               <SwiperSlide key={advertisement._id + index}>
+                  <div className="flex items-center justify-between p-5 border rounded-md shadow-md bg-white">
+                     <div className="flex items-center">
+                        <div className="w-24 h-24">
+                           <img src={advertisement.image} alt="" />
                         </div>
                         <div>
-                           <button className="btn btn-primary btn-xs md:btn-sm text-xs md:text-sm">
-                              Book Now
-                           </button>
+                           <h3 className="text-sm md:text-md font-bold">{advertisement.name}</h3>
+                           <p className="text-xs md:text-sm font-bold text-error">
+                              Price: ${advertisement.price}
+                           </p>
                         </div>
                      </div>
-                  </SwiperSlide>
-               </div>
+                     <div>
+                        <button className="btn btn-primary btn-xs md:btn-sm text-xs md:text-sm">
+                           Book Now
+                        </button>
+                     </div>
+                  </div>
+               </SwiperSlide>
             ))}
          </Swiper>
       </div>
