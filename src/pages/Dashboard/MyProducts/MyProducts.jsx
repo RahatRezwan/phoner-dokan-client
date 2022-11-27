@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
+import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 
 const MyProducts = () => {
    const { user, loading } = useContext(AuthContext);
-
+   const [updateLoader, setUpdateLoader] = useState(false);
    /* get all products of the seller */
    const {
       data: products = [],
@@ -24,21 +25,18 @@ const MyProducts = () => {
    });
 
    const handleAdvertise = (product) => {
-      const item = {
-         productId: product._id,
-         productName: product.name,
-         productImage: product.image,
-         quantity: product.quantity,
-      };
-      axios
-         .post("http://localhost:5000/advertisements", item, {
-            headers: {
-               authorization: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-         })
-         .then((response) => {
-            if (response.data.acknowledged) {
-               toast.success("Advertised Successfully");
+      setUpdateLoader(true);
+      fetch(`http://localhost:5000/products/${product._id}`, {
+         method: "PUT",
+         headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+         },
+      })
+         .then((res) => res.json())
+         .then((data) => {
+            if (data.matchedCount > 0) {
+               setUpdateLoader(false);
+               toast.success(`Advertised Successfully`);
                refetch();
             }
          });
@@ -92,11 +90,11 @@ const MyProducts = () => {
                                  onClick={() => handleAdvertise(product)}
                                  className="btn btn-primary btn-xs text-white"
                               >
-                                 Advertise Product
+                                 {updateLoader ? <SmallSpinner /> : "Advertise"}
                               </button>
                            ) : (
                               <button className="btn btn-xs text-gray-500 btn-disabled">
-                                 Advertise Product
+                                 Advertise
                               </button>
                            )}
                         </td>
