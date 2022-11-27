@@ -35,7 +35,7 @@ const ProductCard = ({ product, setProduct }) => {
             <div className="flex justify-between">
                {/* The button to open modal */}
                <label
-                  onClick={setProduct(product)}
+                  onClick={() => setProduct(product)}
                   htmlFor="booking-modal"
                   className="btn btn-primary"
                >

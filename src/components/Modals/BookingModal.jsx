@@ -8,18 +8,14 @@ import SmallSpinner from "../SmallSpinner/SmallSpinner";
 const BookingModal = ({ product, setProduct }) => {
    const { register, handleSubmit } = useForm();
    const { user } = useContext(AuthContext);
-   const { _id, image, name, price, location, sellerInfo } = product;
+   const { name, price, location } = product;
    const [loader, setLoader] = useState(false);
 
    const handleBooking = (data, event) => {
       const form = event.target;
       setLoader(true);
       const item = {
-         productId: _id,
-         productName: name,
-         productImage: image,
-         productPrice: price,
-         sellerInfo: sellerInfo,
+         product,
          customerName: user.displayName,
          customerEmail: user.email,
          customerPhone: data.phoneNumber,
