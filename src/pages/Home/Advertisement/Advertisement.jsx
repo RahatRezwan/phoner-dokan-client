@@ -3,7 +3,7 @@ import axios from "axios";
 import React from "react";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper";
+import { Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";

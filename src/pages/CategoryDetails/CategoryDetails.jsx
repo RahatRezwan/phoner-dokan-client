@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { BsPatchCheckFill } from "react-icons/bs";
 
 const CategoryDetails = () => {
    const products = useLoaderData();
@@ -18,7 +19,7 @@ const CategoryDetails = () => {
                   </figure>
                   <div className="p-5">
                      <h2 className="card-title mb-2">{product.name}</h2>
-                     <div className="flex justify-between mb-2">
+                     <div className="flex gap-5 mb-2">
                         <p className="font-bold text-blue-600">Resale Price: ${product.price}</p>
                         <p className="font-bold">Original Price: ${product.originalPrice}</p>
                      </div>
@@ -30,7 +31,14 @@ const CategoryDetails = () => {
                            : currentYear - parseInt(product.purchaseYear)}
                      </p>
                      <p className="mb-2">Post Date: {product.data}</p>
-                     <p className="mb-2">Seller Name: {product.sellerInfo.name}</p>
+                     <div className="mb-2 flex items-center gap-1">
+                        <p>
+                           Seller Name: <strong>{product.sellerInfo.name}</strong>
+                        </p>
+                        {product.sellerInfo.verified ? (
+                           <BsPatchCheckFill className="text-blue-500" />
+                        ) : null}
+                     </div>
 
                      <div className="flex justify-between">
                         <button className="btn btn-primary">Book Now</button>
