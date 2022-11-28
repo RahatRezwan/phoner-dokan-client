@@ -4,7 +4,8 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, setProduct }) => {
-   const { image, name, price, originalPrice, location, purchaseYear, data, sellerInfo } = product;
+   const { image, name, price, originalPrice, location, purchaseYear, data, sellerInfo, quantity } =
+      product;
    const currentYear = new Date().getFullYear();
    return (
       <div className="bg-base-100 rounded-xl shadow-xl border">
@@ -37,9 +38,10 @@ const ProductCard = ({ product, setProduct }) => {
                <label
                   onClick={() => setProduct(product)}
                   htmlFor="booking-modal"
+                  disabled={!quantity}
                   className="btn btn-primary"
                >
-                  Book Now
+                  {quantity ? "Book Now" : "Sold Out"}
                </label>
                <Link className="flex gap-2 items-center text-primary">
                   See Details <FaArrowRight />

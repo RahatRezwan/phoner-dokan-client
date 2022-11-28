@@ -8,17 +8,22 @@ import SmallSpinner from "../SmallSpinner/SmallSpinner";
 const BookingModal = ({ product, setProduct }) => {
    const { register, handleSubmit } = useForm();
    const { user } = useContext(AuthContext);
-   const { name, price, location } = product;
+   const { _id, name, image, price, location, sellerEmail, quantity } = product;
    const [loader, setLoader] = useState(false);
 
    const handleBooking = (data, event) => {
       const form = event.target;
       setLoader(true);
       const item = {
-         product,
+         productId: _id,
+         productName: name,
+         productQuantity: quantity,
+         productImage: image,
+         productPrice: price,
          customerName: user.displayName,
          customerEmail: user.email,
          customerPhone: data.phoneNumber,
+         sellerEmail,
          location: data.location,
          bookedDate: new Date(),
       };
@@ -33,6 +38,10 @@ const BookingModal = ({ product, setProduct }) => {
                form.reset();
                setProduct(null);
             }
+            toast.error(response.data.message);
+            setLoader(false);
+            form.reset();
+            setProduct(null);
          });
    };
 

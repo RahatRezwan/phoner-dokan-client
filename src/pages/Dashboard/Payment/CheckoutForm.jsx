@@ -1,32 +1,35 @@
-import { CardElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
+import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 
-const CheckoutForm = ({ order }) => {
+const CheckoutForm = ({ currentOrder, setCurrentOrder, refetch }) => {
    const stripe = useStripe();
    const elements = useElements();
-   const [cardError, setCardError] = useState([]);
+   const [cardError, setCardError] = useState("");
    const [loading, setLoading] = useState(true);
+   const [processing, setProcessing] = useState(false);
    const [clientSecret, setClientSecret] = useState("");
 
-   console.log(order);
+   const { productPrice } = currentOrder;
+   console.log(currentOrder);
    useEffect(() => {
-      const product = order.product;
-      // Create PaymentIntent as soon as the page loads
       fetch("http://localhost:5000/create-payment-intent", {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
          },
-         body: JSON.stringify(product),
+         body: JSON.stringify({ productPrice }),
       })
          .then((res) => res.json())
          .then((data) => {
             setClientSecret(data.clientSecret);
             setLoading(false);
          });
-   }, [order.product]);
+   }, [productPrice]);
 
    const handleSubmit = async (event) => {
       event.preventDefault();
@@ -37,7 +40,7 @@ const CheckoutForm = ({ order }) => {
       if (card == null) {
          return;
       }
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
+      const { error } = await stripe.createPaymentMethod({
          type: "card",
          card,
       });
@@ -48,25 +51,49 @@ const CheckoutForm = ({ order }) => {
          setCardError("");
       }
 
+      setProcessing(true);
       const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
          payment_method: {
             card: card,
             billing_details: {
-               name: order.customerName,
-               email: order.customerEmail,
+               name: currentOrder.customerName,
+               email: currentOrder.customerEmail,
             },
          },
       });
       if (confirmError) {
          setCardError(confirmError.message);
+         setProcessing(false);
          return;
       }
-      console.log("paymentIntent: ", paymentIntent);
+      if (paymentIntent.status === "succeeded") {
+         setProcessing(false);
+         const payment = {
+            transactionId: paymentIntent.id,
+            customerEmail: currentOrder.customerEmail,
+            price: currentOrder.productPrice,
+            bookingId: currentOrder._id,
+            productId: currentOrder.productId,
+            sellerEmail: currentOrder.sellerEmail,
+         };
+
+         axios
+            .post("http://localhost:5000/payments", payment, {
+               headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+            })
+            .then((response) => {
+               setCurrentOrder(null);
+               toast.success("Payment Done Successfully!");
+               refetch();
+               console.log(response.data);
+            });
+      }
    };
 
    if (loading) {
       return <HomeSpinner />;
    }
+
    return (
       <form onSubmit={handleSubmit} className="text-center">
          <h2 className="text-xl font-semibold mb-2 text-start">Enter Card Details</h2>
@@ -90,10 +117,10 @@ const CheckoutForm = ({ order }) => {
          <p className="text-center text-error font-semibold my-2">{cardError ? cardError : null}</p>
          <button
             type="submit"
-            disabled={!stripe || !clientSecret}
+            disabled={!stripe || !clientSecret || processing}
             className="btn btn-primary btn-md mt-3 text-white"
          >
-            Pay ${order.product.price}
+            {processing ? <SmallSpinner /> : `Pay $${currentOrder.productPrice}`}
          </button>
       </form>
    );

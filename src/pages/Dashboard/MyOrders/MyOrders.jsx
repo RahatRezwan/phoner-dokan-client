@@ -15,7 +15,7 @@ const MyOrders = () => {
    const {
       data: orders = [],
       isLoading,
-      fetch,
+      refetch,
    } = useQuery({
       queryKey: ["orders"],
       queryFn: () =>
@@ -39,6 +39,7 @@ const MyOrders = () => {
                      <th>Product Name</th>
                      <th>Price</th>
                      <th>Product Status</th>
+                     <th>TnxID</th>
                      <th>Payment Status</th>
                   </tr>
                </thead>
@@ -49,21 +50,27 @@ const MyOrders = () => {
                         <td>
                            <div className="avatar">
                               <div className="w-12">
-                                 <img src={order.product.image} alt="" />
+                                 <img src={order.productImage} alt="" />
                               </div>
                            </div>
                         </td>
-                        <td>{order.product.name}</td>
-                        <td>${order.product.price}</td>
-                        <td>{order.product.quantity ? "Available" : "Purchased"}</td>
+                        <td>{order.productName}</td>
+                        <td>${order.productPrice}</td>
+                        <td>{order.productQuantity ? "Available" : "Purchased"}</td>
+                        <td>{order.transactionId}</td>
                         <td>
-                           <label
-                              onClick={() => setCurrentOrder(order)}
-                              htmlFor="payment-modal"
-                              className="btn btn-sm text-white"
-                           >
-                              pay
-                           </label>
+                           {order.paymentStatus === "Paid" ? (
+                              <p className="text-green-600 font-bold uppercase">Paid</p>
+                           ) : (
+                              <label
+                                 onClick={() => setCurrentOrder(order)}
+                                 htmlFor="payment-modal"
+                                 disabled={!order.productQuantity}
+                                 className="btn btn-sm text-white"
+                              >
+                                 pay
+                              </label>
+                           )}
                         </td>
                      </tr>
                   ))}
@@ -75,7 +82,7 @@ const MyOrders = () => {
             <Payment
                currentOrder={currentOrder}
                setCurrentOrder={setCurrentOrder}
-               fetch={fetch}
+               refetch={refetch}
                stripePromise={stripePromise}
             />
          ) : null}
