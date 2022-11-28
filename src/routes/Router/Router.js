@@ -45,6 +45,7 @@ export const router = createBrowserRouter([
          {
             path: "/blogs",
             element: <Blogs />,
+            loader: () => fetch("http://localhost:5000/blogs"),
          },
          {
             path: "/login",
