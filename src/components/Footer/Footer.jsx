@@ -15,17 +15,28 @@ const Footer = () => {
                <FooterCategory />
             </div>
             <div>
-               <span className="footer-title">Company</span>
-
-               <Link className="link link-hover">Contact</Link>
-               <Link className="link link-hover">Jobs</Link>
-               <Link className="link link-hover">Press kit</Link>
+               <span className="footer-title">Admin</span>
+               <Link to="/dashboard/manage-sellers" className="link link-hover">
+                  Manage Seller
+               </Link>
+               <Link to="/dashboard/add-blog" className="link link-hover">
+                  Add Blog
+               </Link>
+               <Link to="/dashboard/add-categories" className="link link-hover">
+                  Add Categories
+               </Link>
+               <Link to="/dashboard/reported-items" className="link link-hover">
+                  Reported Items
+               </Link>
             </div>
             <div>
-               <span className="footer-title">Legal</span>
-               <Link className="link link-hover">Terms of use</Link>
-               <Link className="link link-hover">Privacy policy</Link>
-               <Link className="link link-hover">Cookie policy</Link>
+               <span className="footer-title">Seller</span>
+               <Link to="/dashboard/add-product" className="link link-hover">
+                  Add a Product
+               </Link>
+               <Link to="/dashboard/my-products" className="link link-hover">
+                  My Products
+               </Link>
             </div>
          </footer>
       </div>
