@@ -68,7 +68,6 @@ const MyProducts = () => {
                      <th>Category/Brand</th>
                      <th>Advertise</th>
                      <th>Status</th>
-                     <th>Delete</th>
                   </tr>
                </thead>
                <tbody>
@@ -99,9 +98,6 @@ const MyProducts = () => {
                            )}
                         </td>
                         <td>{product.quantity ? "Available" : "Sold"}</td>
-                        <td>
-                           <button className="btn btn-error btn-xs text-white">Delete</button>
-                        </td>
                      </tr>
                   ))}
                </tbody>

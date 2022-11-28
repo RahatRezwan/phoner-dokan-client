@@ -5,7 +5,6 @@ import ManageBuyers from "./ManageBuyers/ManageBuyers";
 import MyOrders from "./MyOrders/MyOrders";
 import MyWishlist from "./MyWishlist/MyWishlist";
 import ReportedItems from "./ReportedItems/ReportedItems";
-import MyBuyers from "./MyBuyers/MyBuyers";
 import MyProducts from "./MyProducts/MyProducts";
 import AddProduct from "./AddProducts/AddProduct";
 
@@ -17,7 +16,6 @@ export {
    MyOrders,
    MyWishlist,
    ReportedItems,
-   MyBuyers,
    MyProducts,
    AddProduct,
 };

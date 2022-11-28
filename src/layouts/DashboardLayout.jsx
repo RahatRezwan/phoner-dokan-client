@@ -19,7 +19,6 @@ const adminMenus = [
 const sellerMenus = [
    { id: "05", name: "Add A Product", route: "/dashboard/add-product" },
    { id: "06", name: "My Products", route: "/dashboard/my-products" },
-   { id: "07", name: "My Buyers", route: "/dashboard/my-buyers" },
 ];
 
 const DashboardLayout = () => {

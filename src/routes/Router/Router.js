@@ -9,7 +9,6 @@ import {
    AddProduct,
    ManageBuyers,
    ManageSellers,
-   MyBuyers,
    MyOrders,
    MyProducts,
    MyWishlist,
@@ -132,14 +131,6 @@ export const router = createBrowserRouter([
             element: (
                <SellerRoute>
                   <MyProducts />
-               </SellerRoute>
-            ),
-         },
-         {
-            path: "/dashboard/my-buyers",
-            element: (
-               <SellerRoute>
-                  <MyBuyers />
                </SellerRoute>
             ),
          },

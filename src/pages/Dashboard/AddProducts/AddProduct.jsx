@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
@@ -12,6 +13,8 @@ const AddProduct = () => {
    const [currentSeller, setCurrentSeller] = useState(null);
    const [loader, setLoader] = useState(false);
    const imgHostKey = process.env.REACT_APP_imgbb_key;
+
+   const navigate = useNavigate();
 
    /* get current user */
    useEffect(() => {
@@ -47,6 +50,7 @@ const AddProduct = () => {
                price: data.price,
                originalPrice: data.originalPrice,
                purchaseYear: data.purchaseYear,
+               useYear: data.useYear,
                location: data.location,
                contact: data.mobile,
                details: data.description,
@@ -65,6 +69,7 @@ const AddProduct = () => {
                      toast.success("Product Added Successfully");
                      setLoader(false);
                      form.reset();
+                     navigate("/dashboard/my-products");
                   }
                });
          });
@@ -81,7 +86,7 @@ const AddProduct = () => {
                <input type="file" {...register("productImage")} className="mb-2" />
             </div>
 
-            <div className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-start w-full">
+            <div className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 items-start w-full">
                <div className="form-control">
                   <label className="label">
                      <span className="label-text text-md font-semibold">Product Model Name</span>
@@ -120,13 +125,25 @@ const AddProduct = () => {
 
                <div className="form-control">
                   <label className="label">
-                     <span className="label-text text-md font-semibold">Year of purchase</span>
+                     <span className="label-text text-md font-semibold">Years of Purchase</span>
                   </label>
                   <input
                      type="text"
                      placeholder="Purchase Year"
                      className={`input input-bordered mb-2`}
                      {...register("purchaseYear")}
+                  />
+               </div>
+
+               <div className="form-control">
+                  <label className="label">
+                     <span className="label-text text-md font-semibold">Years of Use</span>
+                  </label>
+                  <input
+                     type="text"
+                     placeholder="Use Years"
+                     className={`input input-bordered mb-2`}
+                     {...register("useYear")}
                   />
                </div>
             </div>

@@ -43,6 +43,7 @@ const ManageSellers = () => {
          .then((response) => {
             if (response.data.deletedCount > 0) {
                toast.success("Deleted Successfully");
+               refetch();
             }
          });
    };

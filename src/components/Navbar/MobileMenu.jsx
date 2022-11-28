@@ -47,14 +47,14 @@ const MobileMenu = ({ menuItems }) => {
 
          {showMenu ? (
             <>
-               <ul className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 absolute top-[130%] right-[10%]">
+               <ul className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 absolute top-[130%] right-[10%] z-30">
                   {menuItems.map((menu) => (
                      <li key={menu.id}>
                         <Link to={menu.route}>{menu.name}</Link>
                      </li>
                   ))}
                   <li>
-                     <Link>Dashboard</Link>
+                     <Link to="/dashboard">Dashboard</Link>
                   </li>
                   <li>
                      <Link onClick={handleLogout}>

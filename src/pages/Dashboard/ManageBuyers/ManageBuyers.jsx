@@ -6,7 +6,11 @@ import axios from "axios";
 
 const ManageUsers = () => {
    /* Load data using react/tanStack query */
-   const { data: buyers = [], isLoading } = useQuery({
+   const {
+      data: buyers = [],
+      isLoading,
+      refetch,
+   } = useQuery({
       queryKey: ["buyers"],
       queryFn: () =>
          fetch(`http://localhost:5000/buyers`, {
@@ -24,6 +28,7 @@ const ManageUsers = () => {
          .then((response) => {
             if (response.data.deletedCount > 0) {
                toast.success("Deleted Successfully");
+               refetch();
             }
          });
    };

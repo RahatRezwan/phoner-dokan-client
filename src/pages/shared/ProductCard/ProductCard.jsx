@@ -7,19 +7,8 @@ import { toast } from "react-toastify";
 
 const ProductCard = ({ product, setProduct }) => {
    const { user } = useContext(AuthContext);
-   const {
-      _id,
-      image,
-      name,
-      price,
-      originalPrice,
-      location,
-      purchaseYear,
-      data,
-      sellerInfo,
-      quantity,
-   } = product;
-   const currentYear = new Date().getFullYear();
+   const { _id, image, name, price, originalPrice, location, useYear, data, sellerInfo, quantity } =
+      product;
 
    const handleAddWishlist = () => {
       const wishlist = {
@@ -69,12 +58,8 @@ const ProductCard = ({ product, setProduct }) => {
                <p className="font-bold">Original Price: ${originalPrice}</p>
             </div>
             <p className="mb-2">Location: {location}</p>
-            <p className="mb-2">
-               Year of use:{" "}
-               {currentYear - parseInt(purchaseYear) === 0
-                  ? "less than a year"
-                  : currentYear - parseInt(purchaseYear)}
-            </p>
+
+            <p className="mb-2">Years of use: {useYear}</p>
             <p className="mb-2">Post Date: {data}</p>
             <div className="mb-2 flex items-center gap-1">
                <p>
