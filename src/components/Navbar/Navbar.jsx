@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="bg-base-100 shadow-md">
          <div className="navbar bg-transparent max-w-[1350px] mx-auto flex justify-between items-center">
             <div className="">
-               <Link className="w-[150px] md:w-[200px] lg:w-[250px]">
+               <Link to="/" className="w-[150px] md:w-[200px] lg:w-[250px]">
                   <img src={logo} alt="" />
                </Link>
             </div>

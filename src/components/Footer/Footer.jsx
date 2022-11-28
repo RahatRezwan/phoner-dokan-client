@@ -7,7 +7,9 @@ const Footer = () => {
       <div className="bg-gray-100">
          <footer className="footer p-10 text-base-content max-w-[1300px] w-[90%] mx-auto">
             <div>
-               <img src={logo} alt="" className="w-[250px] mb-2" />
+               <Link to="/">
+                  <img src={logo} alt="" className="w-[250px] mb-2" />
+               </Link>
                <p>2022 © Phoner Dokan</p>
             </div>
             <div>
