@@ -28,7 +28,7 @@ const MyOrders = () => {
 
    return (
       <div>
-         <h2 className="text-3xl">My Orders {orders.length}</h2>
+         <h2 className="text-3xl">My Orders</h2>
 
          <div className="overflow-x-auto mt-4">
             <table className="table w-[95%]">

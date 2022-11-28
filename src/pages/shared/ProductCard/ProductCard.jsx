@@ -1,12 +1,58 @@
-import React from "react";
-import { FaArrowRight } from "react-icons/fa";
+import React, { useContext } from "react";
+import { FaHeart, FaBookmark } from "react-icons/fa";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product, setProduct }) => {
-   const { image, name, price, originalPrice, location, purchaseYear, data, sellerInfo, quantity } =
-      product;
+   const { user } = useContext(AuthContext);
+   const {
+      _id,
+      image,
+      name,
+      price,
+      originalPrice,
+      location,
+      purchaseYear,
+      data,
+      sellerInfo,
+      quantity,
+   } = product;
    const currentYear = new Date().getFullYear();
+
+   const handleAddWishlist = () => {
+      const wishlist = {
+         productId: _id,
+         productImage: image,
+         productName: name,
+         productPrice: price,
+         productQuantity: quantity,
+         userEmail: user?.email,
+      };
+      axios
+         .post(`http://localhost:5000/add-to-wishlist`, wishlist, {
+            headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+         })
+         .then((response) => {
+            if (response.data.acknowledged) {
+               toast.success("Added to wishlist");
+            }
+            toast.error(response.data.message);
+         });
+   };
+
+   const handleReport = () => {
+      axios
+         .put(`http://localhost:5000/report-product/${_id}`, {
+            headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+         })
+         .then((response) => {
+            console.log(response.data);
+            toast.success("Reported successfully");
+         });
+   };
+
    return (
       <div className="bg-base-100 rounded-xl shadow-xl border">
          <figure className="p-5 flex justify-center items-center w-[70%] mx-auto">
@@ -43,9 +89,24 @@ const ProductCard = ({ product, setProduct }) => {
                >
                   {quantity ? "Book Now" : "Sold Out"}
                </label>
-               <Link className="flex gap-2 items-center text-primary">
-                  See Details <FaArrowRight />
-               </Link>
+               <div className="flex items-center gap-5">
+                  <button
+                     onClick={handleAddWishlist}
+                     className="tooltip tooltip-bottom"
+                     disabled={!user}
+                     data-tip="Add to wishlist"
+                  >
+                     <FaHeart className="text-xl" />
+                  </button>
+                  <button
+                     onClick={handleReport}
+                     disabled={!user}
+                     className="tooltip tooltip-bottom"
+                     data-tip="Report Item"
+                  >
+                     <FaBookmark className="text-xl" />
+                  </button>
+               </div>
             </div>
          </div>
       </div>
