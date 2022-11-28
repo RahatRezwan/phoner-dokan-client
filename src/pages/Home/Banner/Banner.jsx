@@ -15,8 +15,12 @@ const Banner = () => {
                Biggest online market of second hand smartphones.
             </p>
             <div className="flex gap-4">
-               <button className="btn bg-white text-black hover:btn-primary">Buy Phones</button>
-               <button className="btn bg-white text-black hover:btn-primary">Sell Phones</button>
+               <button to="/categories" className="btn bg-white text-black hover:btn-primary">
+                  Buy Phones
+               </button>
+               <button to="/login" className="btn bg-white text-black hover:btn-primary">
+                  Sell Phones
+               </button>
             </div>
          </div>
       </div>

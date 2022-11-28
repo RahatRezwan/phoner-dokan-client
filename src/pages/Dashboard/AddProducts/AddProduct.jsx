@@ -159,7 +159,7 @@ const AddProduct = () => {
                      className="select select-bordered w-full mb-2"
                      {...register("condition")}
                   >
-                     <option>Excellent</option>
+                     <option selected>Excellent</option>
                      <option>Good</option>
                      <option>Fair</option>
                   </select>
@@ -174,7 +174,7 @@ const AddProduct = () => {
                      className="select select-bordered w-full mb-2"
                      {...register("category")}
                   >
-                     {categories.map((category) => (
+                     {categories.map((category, i) => (
                         <option key={category._id}>{category.name}</option>
                      ))}
                   </select>
