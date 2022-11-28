@@ -43,17 +43,14 @@ const Navbar = () => {
                   {user?.displayName ? (
                      <>
                         {/* user */}
-                        <div
-                           className="dropdown dropdown-end tooltip tooltip-bottom"
-                           data-tip="Go to Dashboard"
-                        >
-                           <Link to="/dashboard">
+                        <div className="dropdown dropdown-end">
+                           <div>
                               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                  <div className="w-10 rounded-full ">
                                     <img src={user?.photoURL} alt="" />
                                  </div>
                               </label>
-                           </Link>
+                           </div>
 
                            <ul
                               tabIndex={0}

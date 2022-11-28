@@ -1,14 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useContext, useState } from "react";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import BookingModal from "../../../components/Modals/BookingModal";
+import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import useAdmin from "../../../hooks/useAdmin";
+import useSeller from "../../../hooks/useSeller";
 
 const Advertisement = () => {
+   const { user } = useContext(AuthContext);
+   const [isAdmin] = useAdmin(user?.email);
+   const [isSeller] = useSeller(user?.email);
+   const [product, setProduct] = useState(null);
    const { data: advertisements = [], isLoading } = useQuery({
       queryKey: ["advertisements"],
       queryFn: () =>
@@ -68,14 +76,23 @@ const Advertisement = () => {
                         </div>
                      </div>
                      <div>
-                        <button className="btn btn-primary btn-xs md:btn-sm text-xs md:text-sm">
+                        <label
+                           onClick={() => setProduct(advertisement)}
+                           htmlFor="booking-modal"
+                           disabled={!user || isAdmin || isSeller}
+                           className="btn btn-primary btn-xs tooltip tooltip-top"
+                           data-tip={
+                              isAdmin || isSeller ? "Please Use Buyer Account" : "Book this product"
+                           }
+                        >
                            Book Now
-                        </button>
+                        </label>
                      </div>
                   </div>
                </SwiperSlide>
             ))}
          </Swiper>
+         {product ? <BookingModal product={product} setProduct={setProduct} /> : null}
       </div>
    );
 };
