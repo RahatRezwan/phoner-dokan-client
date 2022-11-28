@@ -3,7 +3,6 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 
 const Payment = ({ currentOrder, stripePromise }) => {
-   console.log(currentOrder);
    return (
       <div>
          <input type="checkbox" id="payment-modal" className="modal-toggle" />
@@ -19,7 +18,7 @@ const Payment = ({ currentOrder, stripePromise }) => {
                   <h3 className="text-lg font-bold">Payment for {currentOrder.product.name}</h3>
                </div>
                <div className="my-5 w-96 mx-auto">
-                  <Elements stripe={stripePromise}>
+                  <Elements stripe={stripePromise} options={{ theme: "stripe" }}>
                      <CheckoutForm order={currentOrder} />
                   </Elements>
                </div>
