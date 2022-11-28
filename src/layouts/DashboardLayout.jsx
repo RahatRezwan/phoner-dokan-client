@@ -12,6 +12,7 @@ const adminMenus = [
    { id: "01", name: "All Buyers", route: "/dashboard/manage-buyers" },
    { id: "02", name: "All Sellers", route: "/dashboard/manage-sellers" },
    { id: "03", name: "Add Categories", route: "/dashboard/add-categories" },
+   { id: "08", name: "Add Blog", route: "/dashboard/add-blog" },
    { id: "04", name: "Reported Items", route: "/dashboard/reported-items" },
 ];
 

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import useToken from "../../../hooks/useToken";
+import SocialLogin from "../SocialLogin";
 
 const Login = () => {
    const { loginAUser, loading, setLoading } = useContext(AuthContext);
@@ -96,8 +97,7 @@ const Login = () => {
                Register
             </Link>
          </p>
-         <div className="divider">OR</div>
-         <button className="btn btn-outline btn-primary w-full">Login with google</button>
+         <SocialLogin />
       </div>
    );
 };

@@ -1,13 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { toast } from "react-toastify";
+import SocialLogin from "../SocialLogin";
+import useToken from "../../../hooks/useToken";
 
 const Register = () => {
    const { createAUser, updateAUser, user, setHomeSpinner } = useContext(AuthContext);
+   const [signUpUserEmail, setSignUpUserEmail] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [loader, setLoader] = useState(false);
    const {
@@ -16,8 +19,16 @@ const Register = () => {
       formState: { errors },
    } = useForm();
 
+   const [token] = useToken(signUpUserEmail);
    const navigate = useNavigate();
    const imgHostKey = process.env.REACT_APP_imgbb_key;
+
+   useEffect(() => {
+      if (token) {
+         toast.success("Account Created Successfully");
+         navigate("/");
+      }
+   }, [navigate, token]);
 
    const handleRegister = (data, event) => {
       setPasswordError("");
@@ -57,9 +68,9 @@ const Register = () => {
                            if (response.data.acknowledged) {
                               setLoader(false);
                               setHomeSpinner(false);
-                              toast.success("Account Created Successfully");
+                              setSignUpUserEmail(data.email);
+
                               form.reset();
-                              navigate("/");
                            }
                         });
                      })
@@ -209,8 +220,7 @@ const Register = () => {
                Login
             </Link>
          </p>
-         <div className="divider">OR</div>
-         <button className="btn btn-outline btn-primary w-full">Login with google</button>
+         <SocialLogin />
       </div>
    );
 };

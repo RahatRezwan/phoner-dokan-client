@@ -14,6 +14,7 @@ import {
    MyWishlist,
    ReportedItems,
 } from "../../pages/Dashboard";
+import AddBlog from "../../pages/Dashboard/AddBlog/AddBlog";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SellerRoute from "../SellerRoute/SellerRoute";
@@ -104,6 +105,14 @@ export const router = createBrowserRouter([
             element: (
                <AdminRoute>
                   <ReportedItems />
+               </AdminRoute>
+            ),
+         },
+         {
+            path: "/dashboard/add-blog",
+            element: (
+               <AdminRoute>
+                  <AddBlog />
                </AdminRoute>
             ),
          },
