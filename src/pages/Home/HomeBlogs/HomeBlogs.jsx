@@ -8,7 +8,7 @@ const HomeBlogs = () => {
    const [blog, setBlog] = useState(null);
 
    useEffect(() => {
-      axios("http://localhost:5000/blogs?limit=4").then((response) => setBlogs(response.data));
+      axios("http://localhost:5000/blogs?limit=3").then((response) => setBlogs(response.data));
    }, []);
 
    return (
