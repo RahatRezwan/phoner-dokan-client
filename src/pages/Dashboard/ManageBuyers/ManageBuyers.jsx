@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
+import axios from "axios";
 
 const ManageUsers = () => {
    /* Load data using react/tanStack query */
@@ -14,6 +15,18 @@ const ManageUsers = () => {
             },
          }).then((res) => res.json()),
    });
+
+   const handleDelete = (_id) => {
+      axios
+         .delete(`http://localhost:5000/deleteUser/${_id}`, {
+            headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+         })
+         .then((response) => {
+            if (response.data.deletedCount > 0) {
+               toast.success("Deleted Successfully");
+            }
+         });
+   };
 
    if (isLoading) {
       return <HomeSpinner />;
@@ -57,7 +70,12 @@ const ManageUsers = () => {
                         <td>{buyer?.email}</td>
                         <td>{buyer?.role}</td>
                         <td>
-                           <button className="btn btn-error btn-xs text-white">Delete</button>
+                           <button
+                              onClick={() => handleDelete(buyer._id)}
+                              className="btn btn-error btn-xs text-white"
+                           >
+                              Delete
+                           </button>
                         </td>
                      </tr>
                   ))}
