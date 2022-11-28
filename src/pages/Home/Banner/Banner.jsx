@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import banner from "../../../assets/Banner.jpg";
 
 const Banner = () => {
@@ -15,12 +16,12 @@ const Banner = () => {
                Biggest online market of second hand smartphones.
             </p>
             <div className="flex gap-4">
-               <button to="/categories" className="btn bg-white text-black hover:btn-primary">
+               <Link to="/categories" className="btn bg-white text-black hover:btn-primary">
                   Buy Phones
-               </button>
-               <button to="/login" className="btn bg-white text-black hover:btn-primary">
+               </Link>
+               <Link to="/login" className="btn bg-white text-black hover:btn-primary">
                   Sell Phones
-               </button>
+               </Link>
             </div>
          </div>
       </div>
