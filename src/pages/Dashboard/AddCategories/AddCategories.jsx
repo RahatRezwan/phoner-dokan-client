@@ -39,7 +39,7 @@ const AddCategories = () => {
       <div>
          <h2 className="text-3xl mb-5">Manage Categories</h2>
 
-         <form onSubmit={handleSubmit(handleCreate)} className="max-w-[40%]">
+         <form onSubmit={handleSubmit(handleCreate)} className="max-w-[40%] border rounded-xl p-4">
             <div className="form-control">
                <label className="label">
                   <span className="label-text">Category/Brand Logo</span>

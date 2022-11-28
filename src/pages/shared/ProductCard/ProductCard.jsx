@@ -37,8 +37,9 @@ const ProductCard = ({ product, setProduct }) => {
          .then((response) => {
             if (response.data.acknowledged) {
                toast.success("Added to wishlist");
+            } else {
+               toast.error(response.data.message);
             }
-            toast.error(response.data.message);
          });
    };
 
@@ -48,8 +49,11 @@ const ProductCard = ({ product, setProduct }) => {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          })
          .then((response) => {
-            console.log(response.data);
-            toast.success("Reported successfully");
+            if (response.data.modifiedCount) {
+               toast.success("Reported successfully");
+            } else {
+               toast.error("Product already reported");
+            }
          });
    };
 
