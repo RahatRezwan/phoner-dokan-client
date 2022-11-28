@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
 import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 import { toast } from "react-toastify";
 import SocialLogin from "../SocialLogin";
 import useToken from "../../../hooks/useToken";
+import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
 
 const Register = () => {
-   const { createAUser, updateAUser, user, setHomeSpinner } = useContext(AuthContext);
+   const { createAUser, updateAUser, loading, setHomeSpinner } = useContext(AuthContext);
    const [signUpUserEmail, setSignUpUserEmail] = useState("");
    const [passwordError, setPasswordError] = useState("");
    const [loader, setLoader] = useState(false);
@@ -71,7 +72,6 @@ const Register = () => {
                                  setLoader(false);
                                  setHomeSpinner(false);
                                  setSignUpUserEmail(data.email);
-
                                  form.reset();
                               }
                            });
@@ -95,11 +95,9 @@ const Register = () => {
          });
    };
 
-   /* prevent register while a user logged in */
-   if (user) {
-      return <Navigate to="/" />;
+   if (loading) {
+      return <HomeSpinner />;
    }
-
    return (
       <div className="w-[85%] md:w-[50%] xl:w-[33%] mx-auto border border-primary rounded-md p-7 my-16">
          <h1 className="text-4xl mb-4 text-center font-bold">Register</h1>

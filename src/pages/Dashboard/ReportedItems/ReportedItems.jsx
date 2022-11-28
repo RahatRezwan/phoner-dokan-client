@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 import HomeSpinner from "../../../components/HomeSpinner/HomeSpinner";
+import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
 
 const ReportedItems = () => {
+   const [loader, setLoader] = useState(false);
    const {
       data: products = [],
       isLoading,
@@ -17,6 +20,21 @@ const ReportedItems = () => {
             },
          }).then((res) => res.data),
    });
+
+   const deleteItem = (id) => {
+      setLoader(true);
+      axios
+         .delete(`https://phoner-dokan-server.vercel.app/deleteproduct/${id}`, {
+            headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
+         })
+         .then((response) => {
+            if (response.data.deletedCount > 0) {
+               toast.success("Product Deleted Successfully");
+               setLoader(false);
+               refetch();
+            }
+         });
+   };
 
    if (isLoading) {
       return <HomeSpinner />;
@@ -61,7 +79,12 @@ const ReportedItems = () => {
                         <td>{product.category}</td>
                         <td>{product.quantity ? "Available" : "Sold"}</td>
                         <td>
-                           <button className="btn btn-error btn-xs text-white">Delete</button>
+                           <button
+                              onClick={() => deleteItem(product._id)}
+                              className="btn btn-error btn-xs text-white"
+                           >
+                              {loader ? <SmallSpinner /> : "Delete"}
+                           </button>
                         </td>
                      </tr>
                   ))}
