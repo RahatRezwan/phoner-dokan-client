@@ -23,7 +23,7 @@ const AddCategories = () => {
                name: data.category,
             };
             axios
-               .post("http://localhost:5000/categories", category, {
+               .post("https://phoner-dokan-server.vercel.app/categories", category, {
                   headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
                })
                .then((response) => {

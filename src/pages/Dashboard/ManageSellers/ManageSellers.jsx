@@ -13,7 +13,7 @@ const ManageSellers = () => {
    } = useQuery({
       queryKey: ["sellers"],
       queryFn: () =>
-         fetch(`http://localhost:5000/sellers`, {
+         fetch(`https://phoner-dokan-server.vercel.app/sellers`, {
             headers: {
                authorization: `bearer ${localStorage.getItem("accessToken")}`,
             },
@@ -21,7 +21,7 @@ const ManageSellers = () => {
    });
 
    const handleVerify = (seller) => {
-      fetch(`http://localhost:5000/sellers/${seller._id}`, {
+      fetch(`https://phoner-dokan-server.vercel.app/sellers/${seller._id}`, {
          method: "PUT",
          headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -37,7 +37,7 @@ const ManageSellers = () => {
    };
    const handleDelete = (_id) => {
       axios
-         .delete(`http://localhost:5000/deleteUser/${_id}`, {
+         .delete(`https://phoner-dokan-server.vercel.app/deleteUser/${_id}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          })
          .then((response) => {

@@ -17,7 +17,7 @@ const MyProducts = () => {
    } = useQuery({
       queryKey: ["products"],
       queryFn: () =>
-         axios(`http://localhost:5000/products/${user?.email}`, {
+         axios(`https://phoner-dokan-server.vercel.app/products/${user?.email}`, {
             headers: {
                authorization: `bearer ${localStorage.getItem("accessToken")}`,
             },
@@ -26,7 +26,7 @@ const MyProducts = () => {
 
    const handleAdvertise = (product) => {
       setUpdateLoader(true);
-      fetch(`http://localhost:5000/products/${product._id}`, {
+      fetch(`https://phoner-dokan-server.vercel.app/products/${product._id}`, {
          method: "PUT",
          headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,

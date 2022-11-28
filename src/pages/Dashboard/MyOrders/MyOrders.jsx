@@ -19,7 +19,9 @@ const MyOrders = () => {
    } = useQuery({
       queryKey: ["orders"],
       queryFn: () =>
-         axios(`http://localhost:5000/bookItems/${user?.email}`).then((response) => response.data),
+         axios(`https://phoner-dokan-server.vercel.app/bookItems/${user?.email}`).then(
+            (response) => response.data,
+         ),
    });
 
    if (isLoading) {

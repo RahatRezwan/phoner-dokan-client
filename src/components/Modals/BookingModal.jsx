@@ -28,7 +28,7 @@ const BookingModal = ({ product, setProduct }) => {
          bookedDate: new Date(),
       };
       axios
-         .post("http://localhost:5000/bookItem", item, {
+         .post("https://phoner-dokan-server.vercel.app/bookItem", item, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          })
          .then((response) => {

@@ -19,7 +19,7 @@ const AddProduct = () => {
    /* get current user */
    useEffect(() => {
       if (user) {
-         axios(`http://localhost:5000/users/seller/${user.email}`, {
+         axios(`https://phoner-dokan-server.vercel.app/users/seller/${user.email}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          }).then((response) => {
             setCurrentSeller(response.data.seller);
@@ -29,7 +29,9 @@ const AddProduct = () => {
 
    /* get all categories */
    useEffect(() => {
-      axios("http://localhost:5000/categories").then((response) => setCategories(response.data));
+      axios("https://phoner-dokan-server.vercel.app/categories").then((response) =>
+         setCategories(response.data),
+      );
    }, []);
 
    const handleAddProduct = (data, event) => {
@@ -61,7 +63,7 @@ const AddProduct = () => {
                sellerInfo: currentSeller,
             };
             axios
-               .post("http://localhost:5000/products", product, {
+               .post("https://phoner-dokan-server.vercel.app/products", product, {
                   headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
                })
                .then((response) => {

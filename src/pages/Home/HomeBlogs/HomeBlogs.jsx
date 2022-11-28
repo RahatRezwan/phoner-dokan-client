@@ -8,7 +8,9 @@ const HomeBlogs = () => {
    const [blog, setBlog] = useState(null);
 
    useEffect(() => {
-      axios("http://localhost:5000/blogs?limit=3").then((response) => setBlogs(response.data));
+      axios("https://phoner-dokan-server.vercel.app/blogs?limit=3").then((response) =>
+         setBlogs(response.data),
+      );
    }, []);
 
    return (

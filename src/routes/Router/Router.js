@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
          {
             path: "/categories",
             element: <Categories />,
-            loader: () => fetch("http://localhost:5000/categories"),
+            loader: () => fetch("https://phoner-dokan-server.vercel.app/categories"),
          },
          {
             path: "/category/:id",
@@ -41,12 +41,13 @@ export const router = createBrowserRouter([
                   <CategoryDetails />
                </PrivateRoute>
             ),
-            loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.id}`),
+            loader: ({ params }) =>
+               fetch(`https://phoner-dokan-server.vercel.app/categories/${params.id}`),
          },
          {
             path: "/blogs",
             element: <Blogs />,
-            loader: () => fetch("http://localhost:5000/blogs"),
+            loader: () => fetch("https://phoner-dokan-server.vercel.app/blogs"),
          },
          {
             path: "/login",

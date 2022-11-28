@@ -12,7 +12,9 @@ const Advertisement = () => {
    const { data: advertisements = [], isLoading } = useQuery({
       queryKey: ["advertisements"],
       queryFn: () =>
-         axios("http://localhost:5000/advertisedProducts").then((response) => response.data),
+         axios("https://phoner-dokan-server.vercel.app/advertisedProducts").then(
+            (response) => response.data,
+         ),
    });
 
    if (isLoading) {

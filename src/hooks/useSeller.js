@@ -6,7 +6,7 @@ const useSeller = (email) => {
    const [isSellerLoading, setIsSellerLoading] = useState(true);
    useEffect(() => {
       if (email) {
-         axios(`http://localhost:5000/users/seller/${email}`, {
+         axios(`https://phoner-dokan-server.vercel.app/users/seller/${email}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          }).then((response) => {
             setIsSeller(response.data.isSeller);

@@ -16,7 +16,7 @@ const CheckoutForm = ({ currentOrder, setCurrentOrder, refetch }) => {
    const { productPrice } = currentOrder;
    console.log(currentOrder);
    useEffect(() => {
-      fetch("http://localhost:5000/create-payment-intent", {
+      fetch("https://phoner-dokan-server.vercel.app/create-payment-intent", {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
@@ -78,7 +78,7 @@ const CheckoutForm = ({ currentOrder, setCurrentOrder, refetch }) => {
          };
 
          axios
-            .post("http://localhost:5000/payments", payment, {
+            .post("https://phoner-dokan-server.vercel.app/payments", payment, {
                headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
             })
             .then((response) => {

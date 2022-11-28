@@ -13,7 +13,7 @@ const ManageUsers = () => {
    } = useQuery({
       queryKey: ["buyers"],
       queryFn: () =>
-         fetch(`http://localhost:5000/buyers`, {
+         fetch(`https://phoner-dokan-server.vercel.app/buyers`, {
             headers: {
                authorization: `bearer ${localStorage.getItem("accessToken")}`,
             },
@@ -22,7 +22,7 @@ const ManageUsers = () => {
 
    const handleDelete = (_id) => {
       axios
-         .delete(`http://localhost:5000/deleteUser/${_id}`, {
+         .delete(`https://phoner-dokan-server.vercel.app/deleteUser/${_id}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          })
          .then((response) => {

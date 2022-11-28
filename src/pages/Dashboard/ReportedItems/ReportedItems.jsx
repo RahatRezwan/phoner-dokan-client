@@ -11,7 +11,7 @@ const ReportedItems = () => {
    } = useQuery({
       queryKey: ["products"],
       queryFn: () =>
-         axios(`http://localhost:5000/reported-items`, {
+         axios(`https://phoner-dokan-server.vercel.app/reported-items`, {
             headers: {
                authorization: `bearer ${localStorage.getItem("accessToken")}`,
             },

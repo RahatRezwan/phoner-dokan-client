@@ -64,15 +64,17 @@ const Register = () => {
                   updateAUser(user.name, user.profilePic)
                      .then(() => {
                         /* save user to db */
-                        axios.post("http://localhost:5000/users", user).then((response) => {
-                           if (response.data.acknowledged) {
-                              setLoader(false);
-                              setHomeSpinner(false);
-                              setSignUpUserEmail(data.email);
+                        axios
+                           .post("https://phoner-dokan-server.vercel.app/users", user)
+                           .then((response) => {
+                              if (response.data.acknowledged) {
+                                 setLoader(false);
+                                 setHomeSpinner(false);
+                                 setSignUpUserEmail(data.email);
 
-                              form.reset();
-                           }
-                        });
+                                 form.reset();
+                              }
+                           });
                      })
                      .catch((error) => {
                         setLoader(false);

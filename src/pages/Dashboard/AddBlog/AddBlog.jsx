@@ -24,7 +24,7 @@ const AddBlog = () => {
                details: data.details,
             };
             axios
-               .post("http://localhost:5000/blogs", blog, {
+               .post("https://phoner-dokan-server.vercel.app/blogs", blog, {
                   headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
                })
                .then((response) => {

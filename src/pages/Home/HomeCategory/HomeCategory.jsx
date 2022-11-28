@@ -6,7 +6,7 @@ const HomeCategory = () => {
    const [categories, setCategories] = useState([]);
 
    useEffect(() => {
-      axios("http://localhost:5000/categories?limit=4").then((response) =>
+      axios("https://phoner-dokan-server.vercel.app/categories?limit=4").then((response) =>
          setCategories(response.data),
       );
    }, []);

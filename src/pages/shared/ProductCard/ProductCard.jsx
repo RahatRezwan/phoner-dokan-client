@@ -20,7 +20,7 @@ const ProductCard = ({ product, setProduct }) => {
          userEmail: user?.email,
       };
       axios
-         .post(`http://localhost:5000/add-to-wishlist`, wishlist, {
+         .post(`https://phoner-dokan-server.vercel.app/add-to-wishlist`, wishlist, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          })
          .then((response) => {
@@ -34,7 +34,7 @@ const ProductCard = ({ product, setProduct }) => {
 
    const handleReport = () => {
       axios
-         .put(`http://localhost:5000/report-product/${_id}`, {
+         .put(`https://phoner-dokan-server.vercel.app/report-product/${_id}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          })
          .then((response) => {

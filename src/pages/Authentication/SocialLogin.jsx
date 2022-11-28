@@ -37,7 +37,7 @@ const SocialLogin = () => {
             };
             const userEmail = googleUser.email;
             console.log(userEmail);
-            axios.post("http://localhost:5000/users", newUser).then((response) => {
+            axios.post("https://phoner-dokan-server.vercel.app/users", newUser).then((response) => {
                setLoader(false);
                setHomeSpinner(false);
             });

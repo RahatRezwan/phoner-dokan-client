@@ -9,7 +9,7 @@ const MyWishlist = () => {
    const { data: wishlist = [], isLoading } = useQuery({
       queryKey: ["wishlist"],
       queryFn: () =>
-         axios(`http://localhost:5000/wishList/${user.email}`, {
+         axios(`https://phoner-dokan-server.vercel.app/wishList/${user.email}`, {
             headers: { authorization: `bearer ${localStorage.getItem("accessToken")}` },
          }).then((response) => response.data),
    });
