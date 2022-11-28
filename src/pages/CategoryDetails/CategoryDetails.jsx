@@ -1,12 +1,38 @@
-import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useLoaderData } from "react-router-dom";
 import BookingModal from "../../components/Modals/BookingModal";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
+import useAdmin from "../../hooks/useAdmin";
+import useSeller from "../../hooks/useSeller";
 
 import ProductCard from "../shared/ProductCard/ProductCard";
 
 const CategoryDetails = () => {
    const products = useLoaderData();
+   const { user } = useContext(AuthContext);
    const [product, setProduct] = useState(null);
+   const [isAdmin] = useAdmin(user?.email);
+   const [isSeller] = useSeller(user?.email);
+
+   if (isAdmin || isSeller) {
+      return (
+         <div className=" my-52 flex justify-center items-center">
+            <div className="text-center">
+               <h1 className="text-4xl font-bold text-error capitalize">
+                  Please Create a buyer account to buy or book any product
+               </h1>
+               <p className="text-xl font-bold mt-4">
+                  Go to{" "}
+                  <strong>
+                     <Link to="/dashboard" className="text-blue-600 link link-hover">
+                        Dashboard
+                     </Link>
+                  </strong>
+               </p>
+            </div>
+         </div>
+      );
+   }
 
    return (
       <div className="max-w-[1300px] w-[95%] mx-auto my-10">
