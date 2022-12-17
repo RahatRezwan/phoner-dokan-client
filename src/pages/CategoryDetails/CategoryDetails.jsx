@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
+import HomeSpinner from "../../components/HomeSpinner/HomeSpinner";
 import BookingModal from "../../components/Modals/BookingModal";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import useAdmin from "../../hooks/useAdmin";
@@ -9,10 +10,14 @@ import ProductCard from "../shared/ProductCard/ProductCard";
 
 const CategoryDetails = () => {
    const products = useLoaderData();
-   const { user } = useContext(AuthContext);
+   const { user, loading } = useContext(AuthContext);
    const [product, setProduct] = useState(null);
-   const [isAdmin] = useAdmin(user?.email);
-   const [isSeller] = useSeller(user?.email);
+   const [isAdmin, isAdminLoading] = useAdmin(user?.email);
+   const [isSeller, isSellerLoading] = useSeller(user?.email);
+
+   if (isAdminLoading || isSellerLoading || loading) {
+      return <HomeSpinner />;
+   }
 
    if (isAdmin || isSeller) {
       return (
