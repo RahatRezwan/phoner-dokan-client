@@ -15,7 +15,7 @@ const BlogDetails = ({ blog }) => {
                <div className="w-full">
                   <img src={blog.coverPhoto} alt="" className="w-full" />
                   <h1 className="text-3xl font-bold my-4">{blog.title}</h1>
-                  <p>{blog.details}</p>
+                  <p className="text-lg">{blog.details}</p>
                </div>
                <div>
                   <label htmlFor="blog-details" className="btn mt-4">
